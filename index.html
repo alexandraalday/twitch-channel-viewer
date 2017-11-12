@@ -3,39 +3,34 @@
 <head>
 	<title>Twitch Channel Viewer</title>
 	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" type="text/css" href="style.css">
 	<script
 	  src="https://code.jquery.com/jquery-3.2.1.min.js"
 	  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
 	  crossorigin="anonymous"></script>
 	<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script type='text/javascript' src='config.js'></script>
 	<script type="text/javascript" src="script.js"></script>
 </head>
 <body>
 
-	<div class="container">
-		<div id="header" class="text-center">
-			<h1>Twitch Channel Viewer</h1>
-		</div>
-
-		<div class="row">
-			<h1>
-				<div class="col-md-4">
-					logo:
-				</div>
-				<div class="col-md-4">
-					display name:
-				</div>
-				<div class="col-md-4">
-					status:
-				</div>
-			</h1>
-		</div>
-		<div id="followerInfo">
-			
-		</div>
-		
+	<div>
+	  <img id="logo" class="center-block" src="http://www.followgaming.com/assets/twitch_logo-96fa82f24f528c435e847cda4e1eae4893ef5941dd37334427590f8c76eff5cf.png">
 	</div>
+	<div class="text-center">
+	  <button id="btn_all" class="btn btn-link btn-lg"><i class="fa fa-globe" aria-hidden="true"></i> All</button>
+	  <button id="btn_live" class="btn btn-link btn-lg"><i class="fa fa-video-camera" aria-hidden="true"></i> Live</button>
+	  <button id="btn_offline" class="btn btn-link btn-lg"><i class="fa fa-bed" aria-hidden="true"></i> Offline</button>
+	</div>
+	<div class="result">
+	  <ul class="media-list">
+	  </ul>
+	</div>
+
+<footer>
+  
+</footer>
 
 </body>
 </html>

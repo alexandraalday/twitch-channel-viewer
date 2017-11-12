@@ -1,51 +1,77 @@
-$(document).ready(function(){
-
-	let following = [];
-	let proxyUrl = 'https://cors-anywhere.herokuapp.com/',
-    	targetUrl = 'https://wind-bow.gomix.me/twitch-api/users/freecodecamp/follows/channels/'
-
-	$.getJSON(proxyUrl + targetUrl, function(data){
-		for (let i=0; i < data.follows.length; i++){
-			following.push(data.follows[i].channel.display_name);
-		}
-		//for testing
-		following.push('comster404');
-		following.push('brunofin');
-		following.push('ESL_SC2');
-
-		for (let i=0; i< following.length; i++){
-			let url = 'https://wind-bow.gomix.me/twitch-api/streams/' + following[i] + '/?callback=?';
-			$.getJSON(proxyUrl + url).done(function(data2){
-				let logo;
-				let status;
-				let name;
-				if (data2.error){
-					console.log(data2.error);
-					name = data2.message;
-					status = data2.error;
-
-					$('#followerInfo').prepend("<div class='row'>" + 
-						"<div class='col-md-4'>" + "<img src='" + logo + "'>" + "</div>" + 
-						"<div class='col-md-4'>" + name + "</div>" +
-						"<div class='col-md-4'>" + status + "</div></div>")
-				}
-			});
-		}
-		for (let i=0; i< following.length; i++){
-			let onlineUrl = 'https://wind-bow.gomix.me/twitch-api/streams/' + following[i];
-			$.getJSON(proxyUrl + onlineUrl, function(data3){
-					logo = data3.stream.channel.logo;
-					name = data3.stream.channel.name;
-					status = data3.stream.channel.status;
-
-					$('#followerInfo').prepend("<div class='row'>" + 
-						"<div class='col-md-4'>" + "<img src='" + logo + "'>" + "</div>" + 
-						"<div class='col-md-4'>" + name + "</div>" +
-						"<div class='col-md-4'>" + status + "</div></div>")
-				}
-			});
-		}
-
-	});
-
+$(document).ready(function() {
+  const titleArr = [
+    "freecodecamp",
+    "ThijsHS",
+    "tomchen60229",
+    "habathcx",
+    "RobotCaleb",
+    "thomasballinger",
+    "noobs2ninjas",
+    "food",
+    "Nightblue3",
+    "beyondthesummit",
+    "a541021"
+  ];
+  let client_id = config.MY_KEY;
+  let streams = "streams/";
+  let channels = "channels/";
+  const url = "https://api.twitch.tv/kraken/";
+  $(".media-list").empty();
+  titleArr.forEach(function(title) {
+    $.getJSON(url + streams + title + "?client_id=" + client_id, function(
+      json_stream
+    ) {
+      let stream_type;
+      if (json_stream.stream === null) {
+        stream_type = "offline";
+      } else {
+        stream_type = "live";
+      }
+      $.getJSON(
+        url + channels + title + "?client_id=" + client_id,
+        function(json_channel) {
+          let logo;
+          if (json_channel.logo == null) {
+            logo =
+              "https://pbs.twimg.com/profile_images/509073338191183872/fYdty6yd.png";
+          } else {
+            logo = json_channel.logo;
+          }
+          let html =
+            "<li class='media " +
+            stream_type +
+            "'><div class='media-left media-middle'><img class='media-object img-circle' src='" +
+            logo +
+            "' alt='logo'></div><div class='media-body'><a href='" +
+            json_channel.url +
+            "' target='_blank'><h3 class='media-heading text-capitalize'>" +
+            json_channel.name +
+            "</h3></a><strong> </strong>" +
+            json_channel.status +
+            " <br ><strong><i class='fa fa-gamepad' aria-hidden='true'></i> </strong>" +
+            json_channel.game +
+            "<br ><strong><i class='fa fa-eye' aria-hidden='true'></i> </strong>" +
+            json_channel.views + " viewers" +
+            " <br ><strong><i class='fa fa-users' aria-hidden='true'></i> </strong>" +
+            json_channel.followers + " followers" +
+            "</div><div class='media-right media-middle text-uppercase'><span>" +
+            stream_type +
+            "</span></div></li>";
+          $(".media-list").append(html);
+        }
+      );
+    });
+  });
+  $("#btn_all").click(function() {
+    $(".offline").removeClass("hidden");
+    $(".live").removeClass("hidden");
+  });
+  $("#btn_live").click(function() {
+    $(".live").removeClass("hidden");
+    $(".offline").addClass("hidden");
+  });
+  $("#btn_offline").click(function() {
+    $(".offline").removeClass("hidden");
+    $(".live").addClass("hidden");
+  });
 });
